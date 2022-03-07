@@ -1,6 +1,22 @@
 using Microsoft.AspNetCore.ResponseCompression;
 
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+
+using ToolsApp.Core.Interfaces.Data;
+using ToolsApp.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+
+builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+{
+  containerBuilder
+    .RegisterType<PrimaryColorsInMemoryData>() // concete
+    .As<IColorsData>() // contract
+    .InstancePerLifetimeScope(); // instance per http request
+});
 
 // Add services to the container.
 

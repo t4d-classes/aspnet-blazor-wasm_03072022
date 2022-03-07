@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ToolsApp.Core\ToolsApp.Core.csproj" />
     <ProjectReference Include="..\..\ToolsApp.Data\ToolsApp.Data.csproj" />
     <ProjectReference Include="..\Client\ToolsApp.Client.csproj" />
     <ProjectReference Include="..\Shared\ToolsApp.Shared.csproj" />

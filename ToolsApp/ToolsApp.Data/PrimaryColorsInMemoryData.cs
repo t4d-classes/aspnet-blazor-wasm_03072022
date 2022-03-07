@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 
+using ToolsApp.Core.Interfaces.Data;
+using ToolsApp.Core.Interfaces.Models;
+
 using ColorModel = ToolsApp.Shared.Models.Color;
 using ColorDataModel = ToolsApp.Data.Models.Color;
 
 namespace ToolsApp.Data;
 
-public class PrimaryColorsInMemoryData
+public class PrimaryColorsInMemoryData: IColorsData
 {
   private IMapper _mapper;
 
@@ -26,19 +29,19 @@ public class PrimaryColorsInMemoryData
     _mapper = mapperConfig.CreateMapper();
   }
 
-  public Task<IEnumerable<ColorModel>> All()
+  public Task<IEnumerable<IColor>> All()
   {
     return Task.FromResult(_colors
       .Select(c => _mapper.Map<ColorDataModel, ColorModel>(c))
-      .AsEnumerable<ColorModel>());
+      .AsEnumerable<IColor>());
   }
 
-  public Task<ColorModel?> One(int colorId)
+  public Task<IColor?> One(int colorId)
   {
     return Task.FromResult(_colors
       .Where(c => c.Id == colorId)
       .Select(c => _mapper.Map<ColorDataModel, ColorModel>(c))
-      .Cast<ColorModel>()
+      .Cast<IColor>()
       .SingleOrDefault());
   }
 

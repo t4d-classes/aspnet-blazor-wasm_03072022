@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+using ToolsApp.Core.Interfaces.Data;
+using ToolsApp.Core.Interfaces.Models;
+
 using ToolsApp.Shared.Models;
 using ToolsApp.Data;
 
@@ -10,23 +13,23 @@ namespace ToolsApp.Server.Controllers
   [ApiController]
   public class ColorsController : ControllerBase
   {
-    private PrimaryColorsInMemoryData _data;
+    private IColorsData _data;
 
-    public ColorsController()
+    public ColorsController(IColorsData data)
     {
-      _data = new PrimaryColorsInMemoryData();
+      _data = data;
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<Color>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<Color>>> All() {
+    [ProducesResponseType(typeof(IEnumerable<IColor>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<IEnumerable<IColor>>> All() {
       return Ok(await _data.All());
     }
 
     [HttpGet("{colorId:int}")]
-    [ProducesResponseType(typeof(Color), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IColor), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<Color>> One(int colorId)
+    public async Task<ActionResult<IColor>> One(int colorId)
     {
       var color = await _data.One(colorId);
 
