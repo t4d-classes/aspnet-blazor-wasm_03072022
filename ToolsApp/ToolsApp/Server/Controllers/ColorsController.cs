@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 using ToolsApp.Shared.Models;
+using ToolsApp.Data;
 
 namespace ToolsApp.Server.Controllers
 {
@@ -9,26 +10,25 @@ namespace ToolsApp.Server.Controllers
   [ApiController]
   public class ColorsController : ControllerBase
   {
+    private PrimaryColorsInMemoryData _data;
 
-    private List<Color> _colors = new List<Color>()
+    public ColorsController()
     {
-      new() { Id = 1, Name="red", Hexcode="ff0000" },
-      new() { Id = 2, Name="green", Hexcode="00ff00" },
-      new() { Id = 3, Name="blue", Hexcode="0000ff" },
-    };
+      _data = new PrimaryColorsInMemoryData();
+    }
 
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<Color>), StatusCodes.Status200OK)]
-    public ActionResult<IEnumerable<Color>> All() {
-      return Ok(_colors);
+    public async Task<ActionResult<IEnumerable<Color>>> All() {
+      return Ok(await _data.All());
     }
 
     [HttpGet("{colorId:int}")]
     [ProducesResponseType(typeof(Color), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<Color> One(int colorId)
+    public async Task<ActionResult<Color>> One(int colorId)
     {
-      var color = _colors.Find(c => c.Id == colorId);
+      var color = await _data.One(colorId);
 
       if (color is null) {
         return NotFound();

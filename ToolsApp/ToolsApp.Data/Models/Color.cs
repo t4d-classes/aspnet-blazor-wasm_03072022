@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToolsApp.Shared.Models
+namespace ToolsApp.Data.Models
 {
-  // returning data to the client
+  // accessing the data source
   public class Color
   {
     public int Id { get; set; }
