@@ -12,6 +12,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 using ToolsApp.Core.Interfaces.Data;
 using ToolsApp.Data;
+using ToolsApp.Server.Exceptions;
 
 Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
@@ -68,9 +69,6 @@ try
 
   });
 
-    // Add services to the container.
-
-
   builder.Services.AddCors(options =>
   {
     options.AddPolicy(name: devOrigins,
@@ -83,9 +81,9 @@ try
                       });
   });
 
-
-
-  builder.Services.AddControllersWithViews();
+  builder.Services.AddControllersWithViews(options => {
+    options.Filters.Add<HttpResponseExceptionFilter>();
+  });
   builder.Services.AddRazorPages();
 
   builder.Services.AddApiVersioning(config =>
