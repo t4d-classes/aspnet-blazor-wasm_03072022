@@ -22,6 +22,7 @@ public class CarsInMemoryData: ICarsData
   {
     var mapperConfig = new MapperConfiguration(config =>
     {
+      config.CreateMap<INewCar, CarDataModel>();
       config.CreateMap<CarDataModel, CarModel>().ReverseMap();
     });
 
@@ -35,6 +36,18 @@ public class CarsInMemoryData: ICarsData
       .AsEnumerable<ICar>());
   }
 
+  public Task<ICar> Append(INewCar car)
+  {
+    var newCarDataModel = _mapper.Map<CarDataModel>(car);
+    newCarDataModel.Id = _cars.Any() ? _cars.Max(c => c.Id) + 1 : 1;
+
+    _cars.Add(newCarDataModel);
+
+    return Task.FromResult(
+      _mapper.Map<CarDataModel, CarModel>(newCarDataModel) as ICar
+    );
+  }
+
   public Task<ICar?> One(int carId)
   {
     return Task.FromResult(_cars
@@ -44,5 +57,32 @@ public class CarsInMemoryData: ICarsData
       .SingleOrDefault());
   }
 
+  public Task Remove(int carId)
+  {
+    var carIndex = _cars.FindIndex(c => c.Id == carId);
 
+    if (carIndex == -1)
+    {
+      throw new IndexOutOfRangeException("Car not found");
+    }
+
+    _cars.RemoveAt(carIndex);
+
+    return Task.CompletedTask;
+  }
+
+  public Task Replace(ICar car)
+  {
+    var carDataModel = _mapper.Map<CarDataModel>(car);
+
+    var carIndex = _cars.FindIndex(c => c.Id == carDataModel.Id);
+
+    if (carIndex == -1) {
+      throw new IndexOutOfRangeException("Car not found");
+    }
+
+    _cars[carIndex] = carDataModel;
+
+    return Task.CompletedTask;
+  }
 }
