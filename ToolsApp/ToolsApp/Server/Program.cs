@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.ResponseCompression;
+using System.Reflection;
 
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -13,11 +14,11 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
   containerBuilder
-    .RegisterType<PrimaryColorsInMemoryData>() // concete
+    .RegisterType<PrimaryColorsInMemoryData>() // concrete
     .As<IColorsData>() // contract
     .InstancePerLifetimeScope(); // instance per http request
   containerBuilder
-    .RegisterType<CarsInMemoryData>() // concete
+    .RegisterType<CarsInMemoryData>() // concrete
     .As<ICarsData>() // contract
     .InstancePerLifetimeScope(); // instance per http request
 });
@@ -27,11 +28,22 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options => {
+
+  var fileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+  var filePath = Path.Combine(AppContext.BaseDirectory, fileName);
+  options.IncludeXmlComments(filePath);
+
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+  app.UseSwagger();
+  app.UseSwaggerUI();
   app.UseWebAssemblyDebugging();
 }
 else

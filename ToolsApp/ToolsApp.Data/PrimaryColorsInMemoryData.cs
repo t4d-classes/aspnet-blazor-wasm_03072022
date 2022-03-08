@@ -23,6 +23,7 @@ public class PrimaryColorsInMemoryData: IColorsData
   {
     var mapperConfig = new MapperConfiguration(config =>
     {
+      config.CreateMap<INewColor, ColorDataModel>();
       config.CreateMap<ColorDataModel, ColorModel>().ReverseMap();
     });
 
@@ -36,6 +37,18 @@ public class PrimaryColorsInMemoryData: IColorsData
       .AsEnumerable<IColor>());
   }
 
+  public Task<IColor> Append(INewColor color)
+  {
+    var newColorDataModel = _mapper.Map<ColorDataModel>(color);
+    newColorDataModel.Id = _colors.Any() ? _colors.Max(c => c.Id) + 1 : 1;
+
+    _colors.Add(newColorDataModel);
+
+    return Task.FromResult(
+      _mapper.Map<ColorDataModel, ColorModel>(newColorDataModel) as IColor
+    );
+  }
+
   public Task<IColor?> One(int colorId)
   {
     return Task.FromResult(_colors
@@ -45,5 +58,13 @@ public class PrimaryColorsInMemoryData: IColorsData
       .SingleOrDefault());
   }
 
+  public Task Remove(int colorId)
+  {
+    throw new NotImplementedException();
+  }
 
+  public Task Replace(IColor color)
+  {
+    throw new NotImplementedException();
+  }
 }
