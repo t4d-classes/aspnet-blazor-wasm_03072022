@@ -14,6 +14,10 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
   containerBuilder
+    .RegisterType<DataContext>()
+    .SingleInstance();
+
+  containerBuilder
     .RegisterType<PrimaryColorsInMemoryData>() // concrete
     .As<IColorsData>() // contract
     .SingleInstance(); // single instance
