@@ -35,7 +35,6 @@ public class ColorsSqlServerData : IColorsData
     return colors
       .Select(color => _mapper.Map<ColorDataModel, ColorModel>(color))
       .AsEnumerable<IColor>();
-
   }
 
   public async Task<IColor> Append(INewColor color)
@@ -64,13 +63,25 @@ public class ColorsSqlServerData : IColorsData
       .Cast<IColor>().SingleOrDefault();
   }
 
-  public Task Remove(int colorId)
+  public async Task Remove(int colorId)
   {
-    throw new NotImplementedException();
+    using var con = _dataContext.CreateConnection();
+
+    await con.ExecuteAsync(
+      "[DeleteColor]",
+      new { ColorId = colorId },
+      commandType: System.Data.CommandType.StoredProcedure
+    );
   }
 
-  public Task Replace(IColor color)
+  public async Task Replace(IColor color)
   {
-    throw new NotImplementedException();
+    using var con = _dataContext.CreateConnection();
+
+    await con.ExecuteAsync(
+      "[UpdateColor]",
+      color,
+      commandType: System.Data.CommandType.StoredProcedure
+    );
   }
 }

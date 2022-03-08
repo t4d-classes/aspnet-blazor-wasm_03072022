@@ -8,7 +8,7 @@ using ColorDataModel = ToolsApp.Data.Models.Color;
 
 namespace ToolsApp.Data;
 
-public class PrimaryColorsInMemoryData: IColorsData
+public class ColorsInMemoryData: IColorsData
 {
   private IMapper _mapper;
 
@@ -19,7 +19,7 @@ public class PrimaryColorsInMemoryData: IColorsData
       new() { Id = 3, Name="blue", Hexcode="0000ff" },
     };
 
-  public PrimaryColorsInMemoryData()
+  public ColorsInMemoryData()
   {
     var mapperConfig = new MapperConfiguration(config =>
     {
@@ -60,11 +60,30 @@ public class PrimaryColorsInMemoryData: IColorsData
 
   public Task Remove(int colorId)
   {
-    throw new NotImplementedException();
+    var colorIndex = _colors.FindIndex(c => c.Id == colorId);
+
+    if (colorIndex == -1)
+    {
+      throw new IndexOutOfRangeException("Color not found");
+    }
+
+    _colors.RemoveAt(colorIndex);
+
+    return Task.CompletedTask;
   }
 
   public Task Replace(IColor color)
   {
-    throw new NotImplementedException();
+    var colorDataModel = _mapper.Map<ColorDataModel>(color);
+
+    var colorIndex = _colors.FindIndex(c => c.Id == colorDataModel.Id);
+
+    if (colorIndex == -1) {
+      throw new IndexOutOfRangeException("Color not found");
+    }
+
+    _colors[colorIndex] = colorDataModel;
+
+    return Task.CompletedTask;
   }
 }
