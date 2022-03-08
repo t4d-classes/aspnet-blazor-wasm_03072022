@@ -16,11 +16,11 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
   containerBuilder
     .RegisterType<PrimaryColorsInMemoryData>() // concrete
     .As<IColorsData>() // contract
-    .SingleInstance(); // instance per http request
+    .SingleInstance(); // single instance
   containerBuilder
     .RegisterType<CarsInMemoryData>() // concrete
     .As<ICarsData>() // contract
-    .SingleInstance(); // instance per http request
+    .SingleInstance(); // single instance
 });
 
 // Add services to the container.
