@@ -38,14 +38,30 @@ public class ColorsSqlServerData : IColorsData
 
   }
 
-  public Task<IColor> Append(INewColor color)
+  public async Task<IColor> Append(INewColor color)
   {
-    throw new NotImplementedException();
+    using var con = _dataContext.CreateConnection();
+
+    var colorData = await con.QueryAsync<ColorDataModel>(
+      "[InsertColor]",
+      color,
+      commandType: System.Data.CommandType.StoredProcedure
+    );
+
+    return _mapper.Map<ColorDataModel, ColorModel>(colorData.Single()) as IColor;
   }
 
-  public Task<IColor?> One(int colorId)
+  public async Task<IColor?> One(int colorId)
   {
-    throw new NotImplementedException();
+    using var con = _dataContext.CreateConnection();
+
+    var parameters = new { ColorId = colorId }; 
+    var sql = "select Id, Name, Hexcode from Color where Id = @ColorId";
+    var colors = await con.QueryAsync<ColorDataModel>(sql, parameters);
+
+    return colors
+      .Select(color => _mapper.Map<ColorDataModel, ColorModel>(color))
+      .Cast<IColor>().SingleOrDefault();
   }
 
   public Task Remove(int colorId)

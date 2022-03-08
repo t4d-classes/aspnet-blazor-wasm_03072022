@@ -29,7 +29,8 @@ AS
   INSERT INTO dbo.Color ("Name", "Hexcode")
   VALUES (@Name, @Hexcode);
 
-  SELECT "Id", "Name", "Hexcode" FROM dbo.Color WHERE Id = SCOPE_IDENTITY();
+  SELECT "Id", "Name", "Hexcode"
+  FROM dbo.Color WHERE Id = SCOPE_IDENTITY();
 GO 
 
 DROP PROCEDURE IF EXISTS UpdateColor

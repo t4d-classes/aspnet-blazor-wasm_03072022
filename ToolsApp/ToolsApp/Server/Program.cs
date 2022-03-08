@@ -17,10 +17,22 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
     .RegisterType<DataContext>()
     .SingleInstance();
 
-  containerBuilder
-    .RegisterType<PrimaryColorsInMemoryData>() // concrete
-    .As<IColorsData>() // contract
-    .SingleInstance(); // single instance
+  if (builder.Configuration["ColorsData"] == "sql")
+  {
+    containerBuilder
+      .RegisterType<ColorsSqlServerData>() // concrete
+      .As<IColorsData>() // contract
+      .InstancePerLifetimeScope(); // per http request
+  }
+  else
+  {
+    containerBuilder
+      .RegisterType<PrimaryColorsInMemoryData>() // concrete
+      .As<IColorsData>() // contract
+      .SingleInstance(); // single instance
+  }
+
+
   containerBuilder
     .RegisterType<CarsInMemoryData>() // concrete
     .As<ICarsData>() // contract
