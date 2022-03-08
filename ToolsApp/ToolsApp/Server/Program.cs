@@ -16,6 +16,10 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
     .RegisterType<PrimaryColorsInMemoryData>() // concete
     .As<IColorsData>() // contract
     .InstancePerLifetimeScope(); // instance per http request
+  containerBuilder
+    .RegisterType<CarsInMemoryData>() // concete
+    .As<ICarsData>() // contract
+    .InstancePerLifetimeScope(); // instance per http request
 });
 
 // Add services to the container.
