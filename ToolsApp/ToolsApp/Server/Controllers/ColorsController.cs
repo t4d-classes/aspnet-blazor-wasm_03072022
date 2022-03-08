@@ -66,5 +66,32 @@ namespace ToolsApp.Server.Controllers
       }
 
     }
+
+    [HttpPost()]
+    [Consumes("application/json")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(IColor), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IColor>> AppendColor(
+      [FromBody] NewColor newColor
+    ) {
+
+      try
+      {
+        if (!ModelState.IsValid)
+        {
+          return BadRequest();
+        }
+
+        var color = await _data.Append(newColor);
+        return Created($"/colors/{color.Id}", color);
+      }
+      catch (Exception exc)
+      {
+        // Log Exception
+        throw;
+      }
+      
+    }
   }
 }
