@@ -8,7 +8,7 @@
 
 4. Display a table of cars with the following columns:
 
-Id (long), Make, Model, Year (int), Color (string), Price (decimal)
+Id , Make, Model, Year, Color, Price
 
  - Use the previously defined Car Model - be sure to include Color, sorry Donny :) 
  - Build a list of Car objects in Car Tool 
