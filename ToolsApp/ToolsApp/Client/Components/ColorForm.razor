@@ -1,0 +1,54 @@
+@using System.ComponentModel.DataAnnotations
+
+
+<EditForm Model="@colorForm" OnValidSubmit="@doSubmitColorForm">
+
+  <DataAnnotationsValidator />
+  <ValidationSummary />
+
+  <label>
+    Name:
+    <InputText @bind-Value="colorForm.Name" />
+  </label>
+
+  <label>
+    Hexcode:
+    <InputText @bind-Value="colorForm.Hexcode" />
+  </label>
+
+  <button>@ButtonText</button>
+
+</EditForm>
+
+@code {
+
+  private ColorFormModel colorForm = new ColorFormModel();
+
+  [Parameter]
+  public string ButtonText {get; set; } = "Submit Color";
+
+  [Parameter]
+  public EventCallback<NewColor> SubmitColorForm { get; set; }
+
+  public async void doSubmitColorForm() {
+
+    await SubmitColorForm.InvokeAsync(new NewColor() {
+      Name = colorForm.Name,
+      Hexcode = colorForm.Hexcode,
+    });
+
+    colorForm = new ColorFormModel();
+  }
+
+  public class ColorFormModel
+  {
+    [Required]
+    public string Name { get; set; } = "";
+
+    [Required]
+    [RegularExpression(@"^[a-fA-F0-9]{6}$")]
+    public string Hexcode { get; set; } = "";
+  
+  }
+
+}

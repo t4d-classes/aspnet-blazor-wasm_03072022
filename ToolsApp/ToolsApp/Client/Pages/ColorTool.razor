@@ -4,6 +4,9 @@
 
 <ColorList Colors="@colors" />
 
+<ColorForm ButtonText="Add Color"
+  SubmitColorForm="doAppendColor" />
+
 @code {
 
   private List<Color> colors = new List<Color>() {
@@ -11,5 +14,14 @@
     new() { Id=2, Name="green", Hexcode="00ff00"},
     new() { Id=3, Name="blue", Hexcode="0000ff"},
   };
+
+  public void doAppendColor(NewColor color)
+  {
+    colors.Add(new Color() {
+      Id = colors.Any() ? colors.Max(c => c.Id) + 1 : 1,
+      Name = color.Name,
+      Hexcode = color.Hexcode
+    });
+  }
 
 }
