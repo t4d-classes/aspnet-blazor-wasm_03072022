@@ -7,6 +7,7 @@ using ToolsApp.Shared.Models;
 using ToolsApp.Server.Exceptions;
 
 namespace ToolsApp.Server.Controllers;
+
 [Route("v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 [ApiController]

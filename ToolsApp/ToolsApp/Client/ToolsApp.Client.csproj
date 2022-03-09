@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ToolsApp.Core\ToolsApp.Core.csproj" />
     <ProjectReference Include="..\Shared\ToolsApp.Shared.csproj" />
   </ItemGroup>
 

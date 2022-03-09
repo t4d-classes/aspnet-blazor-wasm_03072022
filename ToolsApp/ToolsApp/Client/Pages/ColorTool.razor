@@ -1,0 +1,20 @@
+﻿@page "/color-tool"
+
+<h3>Color Tool</h3>
+
+<ul>
+  @foreach(var color in colors)
+  {
+    <li>@color.Name</li>
+  }
+</ul>
+
+@code {
+
+  private List<Color> colors = new List<Color>() {
+    new() { Id=1, Name="red", Hexcode="ff0000"},
+    new() { Id=2, Name="green", Hexcode="00ff00"},
+    new() { Id=3, Name="blue", Hexcode="0000ff"},
+  };
+
+}

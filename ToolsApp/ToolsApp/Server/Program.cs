@@ -93,7 +93,6 @@ try
     config.ReportApiVersions = true;
   });
 
-  // TODO
   builder.Services.AddVersionedApiExplorer(options =>
   {
       // add the versioned api explorer, which also adds IApiVersionDescriptionProvider service

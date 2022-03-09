@@ -9,6 +9,7 @@
 - Make: string
 - Model: string
 - Year: int
+- Color: string
 - Price: decimal
 
 1. Register the service with Autofac.
