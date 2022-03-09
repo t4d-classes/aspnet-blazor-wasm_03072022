@@ -1,8 +1,6 @@
-﻿using ToolsApp.Core.Interfaces.Models;
+﻿namespace ToolsApp.Shared.Models;
 
-namespace ToolsApp.Shared.Models;
 
-// returning data to the client
 public class NewColor: INewColor
 {
   public string? Name { get; set; }
