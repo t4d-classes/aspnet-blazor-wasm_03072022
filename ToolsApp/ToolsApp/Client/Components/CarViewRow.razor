@@ -1,0 +1,15 @@
+<tr>
+  <td>@Car?.Id</td>
+  <td>@Car?.Make</td>
+  <td>@Car?.Model</td>
+  <td>@Car?.Year</td>
+  <td>@Car?.Color</td>
+  <td>@Car?.Price</td>
+</tr>
+
+@code {
+
+  [Parameter]
+  public Car? Car { get; set; }
+
+}
