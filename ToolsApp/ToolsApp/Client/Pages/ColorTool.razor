@@ -4,12 +4,7 @@
   <h3>Color Tool</h3>
 </header>
 
-<ul>
-  @foreach(var color in colors)
-  {
-    <li>@color.Name</li>
-  }
-</ul>
+<ColorList Colors="@colors" />
 
 @code {
 
