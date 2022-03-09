@@ -2,16 +2,37 @@
 
 <ToolHeader HeaderText="Car Tool" />
 
-<CarTable Cars="@cars" />
+<CarTable Cars="@cars" OnDeleteCar="@DeleteCar" />
+
+<CarForm ButtonText="Add Car"
+  OnSubmitCarForm="@AddCar" />
+
+<ToolFooter CompanyName="A Cool Company LLC" />
 
   
 @code {
-
 
   private List<Car> cars = new() {
     new() { Id = 1, Make = "Tesla", Model = "S", Year = 2020, Color = "blue", Price = 120000 },
     new() { Id = 2, Make = "Tesla", Model = "3", Year = 2019, Color = "red", Price = 45000 },
   };
 
+  public void AddCar(NewCar car)
+  {
+    cars.Add(new Car() {
+      Id = cars.Any() ? cars.Max(c => c.Id) + 1 : 1,
+      Make = car.Make,
+      Model = car.Model,
+      Year = car.Year,
+      Color = car.Color,
+      Price = car.Price,
+    });
+  }
+
+  public void DeleteCar(int carId)
+  {
+    var carIndex = cars.FindIndex(c => c.Id == carId);
+    cars.RemoveAt(carIndex);
+  }
 
 }

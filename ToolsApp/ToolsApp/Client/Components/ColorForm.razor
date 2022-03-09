@@ -30,7 +30,7 @@
   [Parameter]
   public EventCallback<NewColor> SubmitColorForm { get; set; }
 
-  public async void doSubmitColorForm() {
+  public async Task doSubmitColorForm() {
 
     await SubmitColorForm.InvokeAsync(new NewColor() {
       Name = colorForm.Name,

@@ -7,12 +7,13 @@
       <th>Year</th>
       <th>Color</th>
       <th>Price</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     @foreach(var car in Cars)
     {
-      <CarViewRow Car="@car" />
+      <CarViewRow Car="@car" OnDeleteCar="@deleteCar" />
     }
   </tbody>
 </table>
@@ -21,5 +22,13 @@
 
   [Parameter]
   public IEnumerable<Car> Cars { get; set; } = new List<Car>();
+
+  [Parameter]
+  public EventCallback<int> OnDeleteCar { get; set; }
+
+  private async Task deleteCar(int carId)
+  {
+    await OnDeleteCar.InvokeAsync(carId);
+  }
 
 }

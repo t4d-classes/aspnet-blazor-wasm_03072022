@@ -1,0 +1,79 @@
+@using System.ComponentModel.DataAnnotations
+
+
+<EditForm Model="@carForm" OnValidSubmit="@doSubmitCarForm">
+
+  <DataAnnotationsValidator />
+  <ValidationSummary />
+
+  <label>
+    Make:
+    <InputText @bind-Value="carForm.Make" />
+  </label>
+
+  <label>
+    Model:
+    <InputText @bind-Value="carForm.Model" />
+  </label>
+
+  <label>
+    Year:
+    <InputNumber @bind-Value="carForm.Year" />
+  </label>
+
+  <label>
+    Color:
+    <InputText @bind-Value="carForm.Color" />
+  </label>
+
+  <label>
+    Price:
+    <InputNumber @bind-Value="carForm.Price" />
+  </label>
+
+  <button>@ButtonText</button>
+
+</EditForm>
+
+@code {
+
+  private CarFormModel carForm = new CarFormModel();
+
+  [Parameter]
+  public string ButtonText { get; set; } = "Submit Car";
+
+  [Parameter]
+  public EventCallback<NewCar> OnSubmitCarForm { get; set; }
+
+  public async void doSubmitCarForm() {
+
+    await OnSubmitCarForm.InvokeAsync(new NewCar() {
+      Make = carForm.Make,
+      Model = carForm.Model,
+      Year = carForm.Year,
+      Color = carForm.Color,
+      Price = carForm.Price,
+    });
+
+    carForm = new CarFormModel();
+  }
+
+  public class CarFormModel
+  {
+    [Required]
+    public string Make { get; set; } = "";
+
+    [Required]
+    public string Model { get; set; } = "";
+  
+    [Required]
+    public int Year { get; set; } = 1900;
+
+    [Required]
+    public string Color { get; set; } = "";
+
+    [Required]
+    public decimal Price { get; set; } = 0;
+  }
+
+}

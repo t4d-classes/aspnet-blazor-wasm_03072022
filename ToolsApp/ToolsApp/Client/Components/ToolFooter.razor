@@ -1,0 +1,15 @@
+@using System.Diagnostics.CodeAnalysis
+
+<footer>
+  <small>
+    &copy; @DateTime.Now.Year @CompanyName 
+  </small>
+</footer>
+
+@code {
+
+  [AllowNull]
+  [Parameter]
+  public string CompanyName { get; set; }
+
+}
