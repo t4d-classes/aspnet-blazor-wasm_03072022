@@ -1,29 +1,40 @@
 ﻿@page "/color-tool"
 
+@inject IColorsData colorsData;
+
 <ToolHeader HeaderText="Color Tool" />
 
-<ColorList Colors="@colors" />
+<ColorList Colors="@colors" OnDeleteColor="@deleteColor" />
 
 <ColorForm ButtonText="Add Color"
-  SubmitColorForm="doAppendColor" />
+  SubmitColorForm="@addColor" />
 
 <ToolFooter CompanyName="A Cool Company LLC" />
 
 @code {
 
-  private List<Color> colors = new List<Color>() {
-    new() { Id=1, Name="red", Hexcode="ff0000"},
-    new() { Id=2, Name="green", Hexcode="00ff00"},
-    new() { Id=3, Name="blue", Hexcode="0000ff"},
-  };
+  private IEnumerable<IColor>? colors = new List<IColor>();
 
-  public void doAppendColor(NewColor color)
+  protected override async Task OnInitializedAsync()
   {
-    colors.Add(new Color() {
-      Id = colors.Any() ? colors.Max(c => c.Id) + 1 : 1,
-      Name = color.Name,
-      Hexcode = color.Hexcode
-    });
+    await refreshColors();
+  }
+
+  private async Task addColor(INewColor newColor)
+  {
+    await colorsData.Append(newColor);
+    await refreshColors();
+  }
+
+  private async Task deleteColor(int colorId)
+  {
+    await colorsData.Remove(colorId);
+    await refreshColors();
+  }
+
+  private async Task refreshColors()
+  {
+    colors = await colorsData.All();
   }
 
 }

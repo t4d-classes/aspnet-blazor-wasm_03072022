@@ -69,7 +69,7 @@ public class ColorsSqlServerData : IColorsData
 
     await con.ExecuteAsync(
       "[DeleteColor]",
-      new { ColorId = colorId },
+      new { Id = colorId },
       commandType: System.Data.CommandType.StoredProcedure
     );
   }
