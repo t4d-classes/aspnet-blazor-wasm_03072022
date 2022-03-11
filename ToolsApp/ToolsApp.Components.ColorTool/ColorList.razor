@@ -1,0 +1,33 @@
+@using System.Diagnostics.CodeAnalysis
+
+<ul>
+  @foreach(var color in Colors)
+  {
+    <li>
+      @if (ItemTemplate is not null) {
+        @ItemTemplate(color)
+      } else {
+        <span>@color.Name</span>
+      }
+      <button
+        @onclick="@(async () =>
+          await OnActionColor.InvokeAsync(color.Id) )">
+        X</button>
+    </li>
+  }
+</ul>
+
+@code {
+
+  [Parameter, AllowNull]
+  public IEnumerable<IColor> Colors { get; set; } = new List<IColor>();
+
+  [Parameter]
+  public string ActionButtonText { get; set; } = "Go";
+
+  [Parameter]
+  public EventCallback<int> OnActionColor { get; set; }
+
+  [Parameter]
+  public RenderFragment<IColor>? ItemTemplate { get; set; }
+}

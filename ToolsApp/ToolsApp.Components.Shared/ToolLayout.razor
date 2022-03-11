@@ -1,0 +1,27 @@
+<div>
+  <ToolHeader HeaderText="@HeaderText" />
+
+  @Catalog
+
+  @Form
+
+  <ToolFooter CompanyName="@CompanyName" />
+</div>
+
+
+
+@code {
+
+  [Parameter]
+  public string HeaderText { get; set; } = "The Tool";
+
+  [Parameter]
+  public string CompanyName { get; set; } = "The Company";
+
+  [Parameter]
+  public RenderFragment? Catalog { get; set; }
+
+  [Parameter]
+  public RenderFragment? Form { get; set; }
+
+}

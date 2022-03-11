@@ -1,0 +1,49 @@
+@page "/demo/{id:int}"
+@using System.Diagnostics.CodeAnalysis
+
+@inject IColorsData colorsData
+@inject IJSRuntime JS
+
+<p>
+  Id: @Id
+</p>
+
+<form>
+
+  <input type="text" @bind="message" @ref="messageCtrlRef" />
+
+</form>
+
+<button @onclick="doIt">Do It</button>
+
+<button id="refresh-colors-button">Refresh Colors</button>
+
+@code {
+
+  private ElementReference messageCtrlRef { get; set; }
+
+  private string message = "";
+
+  [AllowNull]
+  private DotNetObjectReference<IColorsData> colorsDataRef;
+
+  [Parameter]
+  public int Id { get; set; }
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      await JS.InvokeVoidAsync("toolsAppDemo.setFocus", messageCtrlRef);
+      
+      colorsDataRef = DotNetObjectReference.Create(colorsData);
+      await JS.InvokeVoidAsync("toolsAppDemo.setupColorsRefresh", colorsDataRef);
+    }
+  }  
+
+  private void doIt()
+  {
+    System.Console.WriteLine(message); // outputs to the console
+  }
+
+}

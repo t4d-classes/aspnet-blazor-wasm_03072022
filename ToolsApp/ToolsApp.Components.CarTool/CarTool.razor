@@ -1,0 +1,74 @@
+﻿@page "/car-tool"
+
+@inject ICarsData carsData;
+
+<ToolHeader HeaderText="Car Tool" />
+
+<CarTable Cars="@cars" EditCarId="@editCarId"
+  OnEditCar="@editCar" OnDeleteCar="@deleteCar"
+  OnSaveCar="@saveCar" OnCancelCar="@cancelCar" />
+
+<CarForm ButtonText="Add Car"
+  OnSubmitCarForm="@addCar" />
+
+<ToolFooter CompanyName="A Cool Company LLC" />
+  
+@code {
+
+  // Model Data / State Data
+
+  // persistent data
+  private IEnumerable<ICar>? cars = new List<ICar>() {
+    new Car() {
+      Id = 1, Make = "Tesla", Model = "S",
+      Year = 2020, Color = "blue", Price = 120000 },
+    new Car() {
+      Id = 2, Make = "Tesla", Model = "3",
+      Year = 2019, Color = "red", Price = 45000 },
+  };
+
+  // temporary data
+  private int editCarId = -1;
+
+  protected override async Task OnInitializedAsync()
+  {
+    await refreshCars();
+  }  
+
+  private void editCar(int carId)
+  {
+    editCarId = carId;
+  }
+
+  private void cancelCar()
+  {
+    editCarId = -1;
+  }  
+
+  private async Task addCar(INewCar newCar)
+  {
+    await carsData.Append(newCar);
+    await refreshCars();
+    editCarId = -1;
+  }
+
+  private async Task deleteCar(int carId)
+  {
+    await carsData.Remove(carId);
+    await refreshCars();
+    editCarId = -1;
+  }
+
+  private async Task saveCar(ICar car)
+  {
+    await carsData.Replace(car);
+    await refreshCars();
+    editCarId = -1;
+  } 
+
+  private async Task refreshCars()
+  {
+    cars = await carsData.All();
+  }
+
+}

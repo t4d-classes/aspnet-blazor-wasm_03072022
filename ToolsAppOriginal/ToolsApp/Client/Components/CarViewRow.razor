@@ -1,0 +1,41 @@
+@if (Car is not null) {
+  <tr>
+    <td>@Car.Id</td>
+    <td>@Car.Make</td>
+    <td>@Car.Model</td>
+    <td>@Car.Year</td>
+    <td>@Car.Color</td>
+    <td>@Car.Price</td>
+    <td>
+      <button @onclick="@editCar">Edit</button>
+      <button @onclick="@deleteCar">Delete</button>
+    </td>
+  </tr>
+}
+
+@code {
+
+  [Parameter]
+  public ICar? Car { get; set; }
+
+  [Parameter]
+  public EventCallback<int> OnEditCar { get; set; }
+
+  [Parameter]
+  public EventCallback<int> OnDeleteCar { get; set; }
+
+  private async Task editCar()
+  {
+    if (Car is not null) {
+      await OnEditCar.InvokeAsync(Car.Id);
+    }
+  }
+
+  private async Task deleteCar()
+  {
+    if (Car is not null) {
+      await OnDeleteCar.InvokeAsync(Car.Id);
+    }
+  }
+
+}

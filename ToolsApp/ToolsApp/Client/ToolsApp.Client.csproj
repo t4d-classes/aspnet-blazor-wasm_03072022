@@ -7,8 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <BlazorWebAssemblyLazyLoad Include="ToolsApp.Components.CarTool.dll" />
+    <BlazorWebAssemblyLazyLoad Include="ToolsApp.Components.ColorTool.dll" />
+  </ItemGroup>  
+
+  <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
-    <PackageReference Include="Automapper" Version="11.0.1" />
+    <PackageReference Include="automapper" Version="11.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.2" PrivateAssets="all" />
     <PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
@@ -17,6 +22,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ToolsApp.Core\ToolsApp.Core.csproj" />
     <ProjectReference Include="..\Shared\ToolsApp.Shared.csproj" />
+    <ProjectReference Include="..\..\ToolsApp.Components.CarTool\ToolsApp.Components.CarTool.csproj" />
+    <ProjectReference Include="..\..\ToolsApp.Components.ColorTool\ToolsApp.Components.ColorTool.csproj" />
+    <ProjectReference Include="..\..\ToolsApp.Components.Shared\ToolsApp.Components.Shared.csproj" />
   </ItemGroup>
 
 </Project>

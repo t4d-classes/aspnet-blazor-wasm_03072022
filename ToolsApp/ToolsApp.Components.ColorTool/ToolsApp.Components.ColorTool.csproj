@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Automapper" Version="11.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ToolsApp.Core\ToolsApp.Core.csproj" />
+    <ProjectReference Include="..\ToolsApp\Shared\ToolsApp.Shared.csproj" />
+    <ProjectReference Include="..\ToolsApp.Components.Shared\ToolsApp.Components.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

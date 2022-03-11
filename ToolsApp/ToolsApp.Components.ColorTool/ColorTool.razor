@@ -1,0 +1,66 @@
+﻿@page "/color-tool"
+
+@inject IColorsData colorsData
+@inject IJSRuntime JS
+@inject IScreenBlocker screenBlocker
+
+
+<ToolLayout HeaderText="Color Tool" CompanyName="A Cool Company LLC" >
+  <Catalog>
+    <ColorList Colors="@colors" Context="color"
+      ActionButtonText="X" OnActionColor=@deleteColor>
+      <ItemTemplate>
+        <span>@color.Name - @color.Hexcode</span>
+      </ItemTemplate>
+    </ColorList>
+  </Catalog>
+  <Form>
+    <ColorForm ButtonText="Add Color"
+      OnSubmitColorForm="@addColor" />
+  </Form>
+</ToolLayout>
+
+<HeadContent>
+  <meta name="description" content="The Color Tool">
+</HeadContent>
+
+@* <ToolHeader HeaderText="Color Tool" />
+
+<ColorList Colors="@colors" OnDeleteColor="@deleteColor" />
+
+<ColorForm ButtonText="Add Color"
+  OnSubmitColorForm="@addColor" />
+
+<ToolFooter CompanyName="A Cool Company LLC" /> *@
+
+@code {
+
+  private IEnumerable<IColor>? colors = new List<IColor>();
+
+  protected override async Task OnInitializedAsync()
+  {
+    await screenBlocker.BlockScreen();
+    await refreshColors();
+    await screenBlocker.UnblockScreen();
+  }
+
+  private async Task addColor(INewColor newColor)
+  {
+    await colorsData.Append(newColor);
+    await refreshColors();
+  }
+
+  private async Task deleteColor(int colorId)
+  {
+    if (await JS.InvokeAsync<bool>("confirm", "Are you sure you want to delete this color?")) {
+      await colorsData.Remove(colorId);
+      await refreshColors();
+    }
+  }
+
+  private async Task refreshColors()
+  {
+    colors = await colorsData.All();
+  }
+
+}

@@ -1,11 +1,11 @@
-namespace ToolsApp.Client.Services;
 
-public abstract class BaseData
-{
-  protected string resourceUrl = "";
 
-  protected string collectionUrl() => resourceUrl;
+public abstract class BaseData {
 
-  protected string elementUrl(int elementId) =>
-    $"{resourceUrl}/{Uri.EscapeDataString(elementId.ToString())}";
+  protected string _baseUrl = "";
+
+  protected string collectionUrl() => _baseUrl;
+
+  protected string elementUrl(int colorId) =>
+    $"{_baseUrl}/{Uri.EscapeDataString(colorId.ToString())}";
 }

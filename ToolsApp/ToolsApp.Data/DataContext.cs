@@ -13,5 +13,9 @@ public class DataContext
     _connectionString = configuration.GetConnectionString("App");
   }
 
-  public IDbConnection CreateConnection() => new SqlConnection(_connectionString);
+  public DataContext() {
+    _connectionString = "";
+  }
+
+  public virtual IDbConnection CreateConnection() => new SqlConnection(_connectionString);
 }

@@ -26,7 +26,7 @@ try
 
   var builder = WebApplication.CreateBuilder(args);
 
-  builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
+  builder.Configuration.AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true);
 
   builder.Host.UseSerilog();
   builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
