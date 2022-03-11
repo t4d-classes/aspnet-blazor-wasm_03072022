@@ -1,4 +1,9 @@
 using Microsoft.AspNetCore.ResponseCompression;
+
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
@@ -26,7 +31,10 @@ try
 
   var builder = WebApplication.CreateBuilder(args);
 
-  builder.Configuration.AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true);
+  builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+
+  builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
 
   builder.Host.UseSerilog();
   builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
@@ -120,6 +128,12 @@ try
       options.IncludeXmlComments(filePath);      
   });
 
+  builder.Services.Configure<JwtBearerOptions>(
+    JwtBearerDefaults.AuthenticationScheme, options =>
+    {
+        options.TokenValidationParameters.NameClaimType = "name";
+    });  
+
   var app = builder.Build();
 
   app.UseSerilogRequestLogging();
@@ -155,6 +169,8 @@ try
 
   app.UseRouting();
 
+  app.UseAuthentication();
+  app.UseAuthorization();
 
   app.MapRazorPages();
   app.MapControllers();

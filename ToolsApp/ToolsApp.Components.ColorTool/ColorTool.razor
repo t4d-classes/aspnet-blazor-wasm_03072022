@@ -1,5 +1,10 @@
 ﻿@page "/color-tool"
 
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@attribute [Authorize]
+
 @inject IColorsData colorsData
 @inject IJSRuntime JS
 @inject IScreenBlocker screenBlocker
@@ -39,7 +44,14 @@
 
   protected override async Task OnInitializedAsync()
   {
-    await refreshColors();
+    try
+    {
+      await refreshColors();
+    }
+    catch(AccessTokenNotAvailableException exc)
+    {
+      exc.Redirect();
+    }      
   }
 
   private async Task addColor(INewColor newColor)

@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToolsApp.Shared;
 
 namespace ToolsApp.Server.Controllers
 {
+  [Authorize]
   [ApiController]
   [Route("[controller]")]
   public class WeatherForecastController : ControllerBase

@@ -5,10 +5,11 @@ using ToolsApp.Core.Interfaces.Models;
 
 using ToolsApp.Shared.Models;
 using ToolsApp.Server.Exceptions;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace ToolsApp.Server.Controllers;
 
+[Authorize(Roles="CarTool")]
 [Route("v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 [ApiController]
