@@ -39,9 +39,7 @@
 
   protected override async Task OnInitializedAsync()
   {
-    await screenBlocker.BlockScreen();
     await refreshColors();
-    await screenBlocker.UnblockScreen();
   }
 
   private async Task addColor(INewColor newColor)
@@ -60,7 +58,9 @@
 
   private async Task refreshColors()
   {
+    await screenBlocker.BlockScreen();
     colors = await colorsData.All();
+    await screenBlocker.UnblockScreen();
   }
 
 }

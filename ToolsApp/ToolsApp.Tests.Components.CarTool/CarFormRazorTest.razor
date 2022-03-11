@@ -47,7 +47,8 @@
 
     // Assert
     Mock.Get(submitCarFormActionMock).Verify(
-      mock => mock(It.Is<NewCar>(arg => arg.Make == car.Make)), Times.Once());
+      mock => mock(It.Is<NewCar>(arg =>
+        arg.Make == car.Make || arg.Model == car.Model)), Times.Once());
   }
 
 }

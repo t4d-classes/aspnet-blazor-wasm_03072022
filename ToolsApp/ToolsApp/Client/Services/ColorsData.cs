@@ -8,7 +8,7 @@ public class ColorsData: BaseData, IColorsData
   private HttpClient _http;
 
   public ColorsData(HttpClient http) {
-    _baseUrl = "v1/colors";
+    baseUrl = "v1/colors";
     _http = http;    
   }
 

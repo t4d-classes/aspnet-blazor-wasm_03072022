@@ -11,13 +11,13 @@ public class HelloWorldControllerUnitTest
     var helloWorldController = new HelloWorldController();
 
     var result = helloWorldController.Get().Result as OkObjectResult;
-    Assert.NotEqual(null, result);
+    Assert.NotNull(result);
     if (result is null) return;
 
-    Assert.Equal(result.StatusCode, StatusCodes.Status200OK);
+    Assert.Equal(StatusCodes.Status200OK, result.StatusCode);
 
     var message = result.Value as Message;
-    Assert.NotEqual(null, message);
+    Assert.NotEqual(null, message); // Not Null is preferred
     if (message is null) return;
 
     Assert.Equal("Hello, World!", message.Contents);

@@ -7,7 +7,7 @@ public class CarsData: BaseData, ICarsData
   private HttpClient _http;
 
   public CarsData(HttpClient http) {
-    _baseUrl = "v1/cars";
+    baseUrl = "v1/cars";
     _http = http;    
   }
 
